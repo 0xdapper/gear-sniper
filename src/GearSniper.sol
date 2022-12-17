@@ -1,3 +1,5 @@
+pragma solidity ^0.8.17;
+
 interface IGLB {
     function advanceStage() external;
 

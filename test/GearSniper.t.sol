@@ -1,3 +1,5 @@
+pragma solidity ^0.8.17;
+
 import {Test} from "forge-std/Test.sol";
 import {GearSniper, IGLB, Stage} from "../src/GearSniper.sol";
 import {console} from "forge-std/console.sol";
