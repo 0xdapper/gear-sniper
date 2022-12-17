@@ -5,6 +5,8 @@ interface IGLB {
 
     function fairTradingStart() external view returns (uint);
 
+    function fairTradingEnd() external view returns (uint);
+
     function buyGEAR(uint256 minGEARBack) external payable;
 
     function sellGEAR(uint256 amount, uint256 minETHBack) external;
@@ -16,6 +18,8 @@ interface IGear {
     function balanceOf(address) external view returns (uint);
 
     function transfer(address _to, uint _amt) external;
+
+    function approve(address _spender, uint _amt) external;
 }
 
 enum Stage {
@@ -43,6 +47,8 @@ contract GearSniper {
     constructor(IGLB _glb) {
         glb = _glb;
         SNIPER_FEE_RECIPIENT = msg.sender;
+
+        GEAR.approve(address(glb), type(uint).max);
     }
 
     modifier onlyStage(Stage _stage) {
@@ -124,6 +130,7 @@ contract GearSniper {
     }
 
     function _commitETH() internal onlyStage(Stage.WAITING) {
+        require(glb.stage() == 2, "can commit eth only in eth deposit stage");
         totalEthCommitted += msg.value;
         ethCommitted[msg.sender] += msg.value;
     }
