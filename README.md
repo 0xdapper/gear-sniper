@@ -7,3 +7,5 @@ GEAR during fair trading.
 
 DISCLAIMER: Very little time spent on tests and contract, check contracts
 and participate at your own risks.
+
+Off-chain executor for this contract can be found here - [`gear-sniper-executor`](https://github.com/0xdapper/gear-sniper-executor)
