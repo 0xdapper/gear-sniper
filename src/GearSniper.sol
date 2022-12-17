@@ -38,8 +38,11 @@ contract GearSniper {
     Stage public stage;
     uint public gearBought;
 
+    address public immutable SNIPER_FEE_RECIPIENT;
+
     constructor(IGLB _glb) {
         glb = _glb;
+        SNIPER_FEE_RECIPIENT = msg.sender;
     }
 
     modifier onlyStage(Stage _stage) {
@@ -67,8 +70,11 @@ contract GearSniper {
         if (glb.stage() == 2) {
             glb.advanceStage();
 
-            uint totalEthCommittedAfterFees = (totalEthCommitted *
-                SNIPING_FEE_BPS) / TOTAL_FEE_BPS;
+            uint snipingFees = (totalEthCommitted * SNIPING_FEE_BPS) /
+                TOTAL_FEE_BPS;
+            _sendValue(SNIPER_FEE_RECIPIENT, snipingFees);
+
+            uint totalEthCommittedAfterFees = totalEthCommitted - snipingFees;
             glb.buyGEAR{value: totalEthCommittedAfterFees}(0);
 
             gearBought = GEAR.balanceOf(address(this));
