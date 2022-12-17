@@ -30,5 +30,10 @@ jobs:
 
       - name: Run Forge tests
         run: |
-          forge test -vvv
+          forge test -vvv --fork-url https://eth.llamarpc.com --fork-block-number 16202718
         id: test
+
+      - name: Run Forge coverage
+        run: |
+          forge coverage -vvv --fork-url https://eth.llamarpc.com --fork-block-number 16202718
+        id: coverage
